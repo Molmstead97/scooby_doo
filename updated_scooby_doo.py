@@ -21,25 +21,70 @@ class NPC(ABC):
 
 class Player:
     
+    locations = {
+    "gravesite": "g",
+    "mausoleum": "m",
+    "chapel": "c",    
+    "gardens": "gd",
+    "entrance": "e"
+    }
+
+    clue_locations = {
+    "gravesite": [("headstone", "broken headstone")],
+    "mausoleum": [("crypt", "torn cloth")],
+    "chapel": [("altar", "strange note")],
+    "gardens": [("flower bed", "shovel")],
+    "entrance": [("dirt pathway", "footprints")]
+    }
     
-    def move_location(self, user_location: str) -> str:
-        valid_input = False
+    def __init__(self, user_location="entrance", player_clues=[]):
+        self.user_location = user_location
+        self.player_clues = player_clues
         
+    
+    
+    def move_location(self):
+            
+        valid_input = False
         while not valid_input:
             move = input("\nWhere would you like to move? Gravesite (g): Mausoleum (m): Chapel (c): Gardens (gd): Entrance (e): ").lower()
-            if move == user_location:
-                print("You're already here.")
-            elif move in locations:
-                user_location = locations[move]
-                print(f"\nYou decide to go to the {user_location}.")
+            if move == self.user_location:
+                print("\nYou're already here.")
+            
+            elif move == "g" or move == "gravesite":
+                print("\nYou decide to move to the gravesite.")
+                self.user_location = self.locations["gravesite"]
                 valid_input = True
                 
-        return user_location
+            elif move == "m" or move == "mausoleum":
+                print("\nYou decide to move to the mausoleum.")
+                self.user_location = self.locations["mausoleum"]
+                valid_input = True
+                
+            elif move == "c" or move == "chapel":
+                print("\nYou decide to move to the chapel.")
+                self.user_location = self.locations["chapel"]
+                valid_input = True
+                
+            elif move == "gd" or move == "gardens":
+                print("\nYou decide to move to the gardens.")
+                self.user_location = self.locations["gardens"]
+                valid_input = True
+                
+            elif move == "e" or move == "entrance":
+                print("\nYou decide to move to the entrance.")
+                self.user_location = self.locations["entrance"]
+                valid_input = True
+                
+            else:
+                print("\nYou can't go there.")
+        
+        return self.user_location
 
-    
-    def search_location(self, user_location):
-        interactive_objects = locations[user_location]
-        for location, object in locations.items():
+                
+    def search_location(self):
+        interactive_objects = self.locations
+        for location, object in self.locations.items():
             # Define interactive objects based on location code
             if object == 0:  # Gravesite
                 interactive_objects[location] = ["headstone", "funeral urn", "dead flowers", "lantern"]
@@ -57,17 +102,17 @@ class Player:
                 interactive_objects[location] = ["gate", "signboard", "gargoyle statue", "lamp post"]
                 print("")
 
-        return interactive_objects, turn_count
+        return interactive_objects
         
         
-    def interact_with_object(self, user_location):
+    def interact_with_object(self):
         pass    
     
     
-    def look_at_clues(self, player_clues):
-        if not player_clues:
+    def look_at_clues(self):
+        if not self.player_clues:
             print("You don't have any clues yet.")
-        for clue in player_clues:
+        for clue in self.player_clues:
             print(f"- {clue}")
             
         
@@ -75,7 +120,7 @@ class Fred(NPC):
     def __init__(self):
         super().__init__(name="Fred", mood="confident")
     def take_action(self):
-        print("\nAlright Gang, let's split up and look for clues. Daphne, Velma, you're with me. ")
+        print("\nAlright Gang, let's split up and look for clues.")
 
 
 class Daphne(NPC):
@@ -112,41 +157,8 @@ class Ghost(NPC):
     def take_action(self):
         print("\nWooooo! You meddling kids will never solve the mystery! ")
 
-
-# Game info
-locations = {
-    "g": "gravesite",
-    "m": "mausoleum",
-    "c": "chapel",
-    "gd": "gardens",
-    "e": "entrance"
-}
-
-user_location = "entrance"
-
-clue_locations = {
-    "gravesite": [("headstone", "broken headstone")],
-    "mausoleum": [("crypt", "torn cloth")],
-    "chapel": [("altar", "strange note")],
-    "gardens": [("flower bed", "shovel")],
-    "entrance": [("dirt pathway", "footprints")]
-}
-
-player_clues = []
-
-turn_count = 0
-
-characters = {
-    "Fred": Fred(),
-    "Daphne": Daphne(),
-    "Velma": Velma(),
-    "Shaggy": Shaggy(),
-    "Scooby": Scooby(),
-    "Ghost": Ghost()
-}
-
 def main():
-    player = Player()
+    
     
     #Introduction
     print()
@@ -169,21 +181,29 @@ def main():
     turn_count = 0
     while turn_count < 15:
         turn_count += 1
+        user_input = input("\nWhat would you like to do? Move location: (m), Search current location: (s), Interact with object: (i), Look at your list of clues: (l): ").lower()
         
-        print(f"\nYou are currently in the {user_location}.")
-        try:
-            user_input = input("\nWhat would you like to do? Move location: (m), Search current location: (s), Interact with object: (i), Look at your list of clues: (l): ").lower()
-            if user_input == "m" or user_input == "move":
-                player.move_location(user_location)
-            elif user_input == "s" or user_input == "search":
-                player.search_location()            
-            elif user_input == "i" or user_input == "interact":
-                player.interact_with_object()
-            elif user_input == "l":
-                player.look_at_clues()
+        if user_input == "m" or user_input == "move":
+            player.move_location()
+        elif user_input == "s" or user_input == "search":
+            player.search_location()            
+        elif user_input == "i" or user_input == "interact":
+            player.interact_with_object()
+        elif user_input == "l":
+            player.look_at_clues()
+        else:
+            print("That's not valid input.")
                 
-        except ValueError:
-            print("\nThat's not valid input.")
+player = Player()
+
+characters = {
+    "Fred": Fred(),
+    "Daphne": Daphne(),
+    "Velma": Velma(),
+    "Shaggy": Shaggy(),
+    "Scooby": Scooby(),
+    "Ghost": Ghost()
+}
 
 
 if __name__ == "__main__":
