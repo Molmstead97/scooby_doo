@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import random
 import time
-
+import sys
 
 class NPC(ABC):
     def __init__(self, name: str, mood: str):
@@ -25,14 +25,14 @@ class Player:
         "e": "entrance"
     }
     
-    
-    def __init__(self, user_location="entrance", player_clues=[], first_g_encounter=True, first_m_encounter=True, first_c_encounter=True, first_gd_encounter=True):
+    def __init__(self, user_location="entrance", player_clues=[], first_g_encounter=True, first_m_encounter=True, first_c_encounter=True, first_gd_encounter=True, clue_count=0):
         self.user_location = user_location
         self.player_clues = player_clues
         self.first_g_encounter = first_g_encounter
         self.first_m_encounter= first_m_encounter
         self.first_c_encounter = first_c_encounter
         self.first_gd_encounter = first_gd_encounter
+        self.clue_count = clue_count
     
     def move_location(self, user_location: str) -> str:
         valid_input = False
@@ -109,6 +109,9 @@ Do you want to examine an object further, or do something else (m)? """)
                     elif user_choice == "l":
                         print("\nYou found a clue: A single lantern rests by this grave.")
                         self.player_clues.append("lantern")
+                        self.clue_count += 1
+                        if self.clue_count >= 5:
+                            player.solve_mystery()
                         
                     elif user_choice == "m":
                         break
@@ -125,6 +128,9 @@ Do you want to examine an object further, or do something else (m)? """)
                     if user_choice == "c":
                         print("\nYou found a clue: The crypt looks like it has been damaged by somethig sharp. ")
                         self.player_clues.append("damaged crypt")
+                        self.clue_count += 1
+                        if self.clue_count >= 5:
+                            player.solve_mystery()
                     
                     elif user_choice == "s":
                         print("\nIt looks like there is a statue of someone that was buried here. ")
@@ -147,6 +153,9 @@ Do you want to examine an object further, or do something else (m)? """)
                     if user_choice == "s":
                         print("\nYou found a clue: Gang, like why is there a shovel in a church? The edge looks like it has been chipped. ")
                         self.player_clues.append("shovel")
+                        self.clue_count += 1
+                        if self.clue_count >= 5:
+                            player.solve_mystery()
                     
                     elif user_choice == "a":
                         print("\nYou look behind the altar but see nothing. Jeepers! This place gives me the creeps. ")
@@ -163,7 +172,7 @@ Do you want to examine an object further, or do something else (m)? """)
         elif location_name == "gardens":
             while True:
                 try:
-                    user_choice = input("""\nYou look around the gardens and see a fountain (f), large holes (h), and a flower bed(b). 
+                    user_choice = input("""\nYou look around the gardens and see a fountain (f), large holes (h), and a flower bed (b). 
 Do you want to examine an object further, or do something else (m)? """)
                     
                     if user_choice == "f":
@@ -172,6 +181,9 @@ Do you want to examine an object further, or do something else (m)? """)
                     elif user_choice == "h":
                         print("\nYou found a clue: Like zoinkes Scoob! There are large holes all over this garden that seem to be too large for plants. ")
                         self.player_clues.append("large holes")
+                        self.clue_count += 1
+                        if self.clue_count >= 5:
+                            player.solve_mystery()
                     
                     elif user_choice == "b":
                         print("\nThere's nothing there, what did you expect? Zombies in the flower bed? ")
@@ -191,6 +203,9 @@ Do you want to examine an object further, or do something else (m)? """)
                     if user_choice == "g":
                         print("\nYou found a clue: Hold the phone. This gate has a lock on it that appears to have been cut.")
                         self.player_clues.append("gate")
+                        self.clue_count += 1
+                        if self.clue_count >= 5:
+                            player.solve_mystery()
                     
                     elif user_choice == "s":
                         print("\nIt says 'Welcome to Graveyard Grove'.")
@@ -203,12 +218,65 @@ Do you want to examine an object further, or do something else (m)? """)
                 
                 except ValueError:
                     print("\nThat's not valid input.")
+                    
+        
 
     def look_at_clues(self):
         if not self.player_clues:
             print("\nYou don't have any clues yet. ")
         for clue in self.player_clues:
             print(f"\n- {clue}")
+            
+    def solve_mystery(self):
+        time.sleep(2)
+        print("""
+            The groundskeeper approaches you and says that he noticed that you and the gang have been trying to solve the mystery.
+            He hands you a map of the graveyard with several circles drawn on it 
+            and tells you that there is said to be treasure buried on the grounds of the graveyard.
+            He believes that the story of the ghost of Old Man Jenkins was created to keep people away
+            so someone could look for the buried treasure without being disturbed.
+            He suspects that the so called ghost is Randy Roughington who has a gambling problem. """)
+        
+        try:
+            
+            user_choice = input("\nWho do you think the is the ghost? Randy Roughington (rr), a real ghost (rg), or the groundskeeper (gk)? ")
+                
+            if user_choice == "rr":
+                time.sleep(2)
+                print("""
+                      The groundskeeper tells that Randy visits the gravyard every night around 8pm.
+                      It is 7pm so now is the perfect time to capture him.
+                      You agree that you should be the bait.
+                      The groundskeeper stands by with a net. 
+                      You hear rustling and as you turn your head to investigate, a net is thrown of your head.
+                      Through the holes in the net, you can see that the groundskeeper was the one that caught you.
+                      He takes you to an underground cave where the rest of the gang is.
+                      You are screwed. It is game over for you and the gang. """)
+                sys.exit()
+            
+            elif user_choice == "rg":
+                time.sleep(2)
+                print("""
+                      You decide to leave the gang and go home because you are too scared of ghosts.
+                      You are the best friend ever known to man. Whether or not you made the right choice, you will never know.""")
+                sys.exit()
+                
+            elif user_choice == "gk":
+                time.sleep(2)
+                print("""
+                      You don't trust a word that the groundskeeper says, so you thank him for his input and pretend to help him capture Randy.
+                      While the groundskeeper is getting the net ready, you pull out the net in your bag and throw it on him
+                      (you're part of the gang and would never come unprepared). The groundskeeper is suprised that you knew it was him.
+                      You call the sheriff who takes the man into custody, but not before you bribe the man with a scooby snack.
+                      He reveals that the gang is in the loft of the church. The man states that several years ago, 
+                      he created the legend of Old Man Jenkins when he buried a years supply of scooby snacks in 
+                      the graveyard during the pandemic. 
+                      He buried the treasure when there was a large storm so the neighbors wouldn't know what he was doing.
+                      You knew that there was no such thing as ghosts. """)
+                sys.exit()
+                
+        except ValueError:
+            print("\nThat's not valid input.")
                     
 class Fred(NPC):
     def __init__(self):
@@ -260,65 +328,73 @@ class Ghost(NPC):
         captured_shaggy = False
         captured_scooby = False
         
-        if self.attack == 1 and captured_fred is False:
-                time.sleep(2)
-                print("\nThe ghost of Old Man Jenkins suddenly attacks Fred!")
-                attack_fred = random.randint(1, 3)
-                if attack_fred == 1:
-                    print("\nFred yells for help as the ghost drags him away!")
-                    mystery_gang -= 1
-                    captured_fred = True
-                else:
-                    print("\nFred leads the ghost into a trap so he can get away!")
-        
-        elif self.attack == 2 and captured_daphne is False:
-                time.sleep(2)
-                print("\nThe ghost of Old Man Jenkins suddenly attacks Daphne!")
-                attack_daphne = random.randint(1, 3)
-                if attack_daphne == 1:
-                    print("\nDaphne tries to run but trips over a trap Fred set! She is captured by the ghost!")
-                    mystery_gang -= 1
-                    captured_daphne = True
-                else:
-                    print("\nDaphne is able to run fast enough to escape the ghost!")
-                
-        elif self.attack == 3 and captured_velma is False:
-                time.sleep(2)
-                print("\nThe ghost of Old Man Jenkins suddenly attacks Velma!")
-                attack_velma = random.randint(1, 3)
-                if attack_velma == 1:
-                    print("\nThe ghost manages to fog up Velma's glasses and snatch her away while she can't see!")
-                    mystery_gang -= 1
-                    captured_velma = True
-                else:
-                    print("\nVelma isn't afraid of the ghost and the ghost walks away in shame.")
-                
-        elif self.attack == 4 and captured_shaggy is False:
-                time.sleep(2)
-                print("\nThe ghost of Old Man Jenkins suddenly attacks Shaggy!")
-                attack_shaggy = random.randint(1, 3)
-                if attack_shaggy == 1:
-                    print("\nThe ghost manages to sneak up and capture Shaggy while he's busy shoveling a sandwich into his mouth.")
-                    mystery_gang -= 1
-                    captured_shaggy = True
-                else:
-                    print("\nShaggy beats the ghost over the head with his sandwich until it backs off!")
-                
-        elif self.attack == 5 and captured_scooby is False:
-                print("\nThe ghost of Old Man Jenkins suddenly attacks Scooby!")
-                attack_scooby = random.randint(1, 3)
-                if attack_scooby == 1:
-                    print("\nThe ghost pulls out a Scooby-Snack from its back pocket and distracts Scooby long enough to capture him!")
-                    mystery_gang -= 1
-                    captured_scooby = True
-                else:
-                    print("\nScooby bites the ghost and it runs away!")
-                    
-        else:
+        if mystery_gang <= 0:
             print("The ghost has captured the entire mystery gang! You were unable to solve the mystery in time.")
+            sys.exit()
         
-        return mystery_gang
-
+        # Only attack if no one is already captured
+        if not captured_fred and self.attack == 1:
+            time.sleep(2)
+            print("\nThe ghost of Old Man Jenkins suddenly attacks Fred!")
+            attack_fred = random.randint(1, 3)
+            if attack_fred == 1:
+                print("\nFred yells for help as the ghost drags him away!")
+                mystery_gang -= 1
+                captured_fred = True
+            else:
+                print("\nFred leads the ghost into a trap so he can get away!")
+        
+        elif not captured_daphne and self.attack == 2:
+            time.sleep(2)
+            print("\nThe ghost of Old Man Jenkins suddenly attacks Daphne!")
+            attack_daphne = random.randint(1, 3)
+            if attack_daphne == 1:
+                print("\nDaphne tries to run but trips over a trap Fred set! She is captured by the ghost!")
+                mystery_gang -= 1
+                captured_daphne = True
+            else:
+                print("\nDaphne is able to run fast enough to escape the ghost!")
+        
+        elif not captured_velma and self.attack == 3:
+            time.sleep(2)
+            print("\nThe ghost of Old Man Jenkins suddenly attacks Velma!")
+            attack_velma = random.randint(1, 3)
+            if attack_velma == 1:
+                print("\nThe ghost manages to fog up Velma's glasses and snatch her away while she can't see!")
+                mystery_gang -= 1
+                captured_velma = True
+            else:
+                print("\nVelma isn't afraid of the ghost and the ghost walks away in shame.")
+            
+        
+        elif not captured_shaggy and self.attack == 4:
+            time.sleep(2)
+            print("\nThe ghost of Old Man Jenkins suddenly attacks Shaggy!")
+            attack_shaggy = random.randint(1, 3)
+            if attack_shaggy == 1:
+                print("\nThe ghost manages to sneak up and capture Shaggy while he's busy shoveling a sandwich into his mouth.")
+                mystery_gang -= 1
+                captured_shaggy = True
+            else:
+                print("\nShaggy beats the ghost over the head with his sandwich until it backs off!")
+            
+        
+        elif not captured_scooby and self.attack == 5:
+            time.sleep(2)
+            print("\nThe ghost of Old Man Jenkins suddenly attacks Scooby!")
+            attack_scooby = random.randint(1, 3)
+            if attack_scooby == 1:
+                print("\nThe ghost pulls out a Scooby-Snack from its back pocket and distracts Scooby long enough to capture him!")
+                mystery_gang -= 1
+                captured_scooby = True
+            else:
+                print("\nScooby bites the ghost and it runs away!")
+           
+        else:
+            time.sleep(2)
+            print("\nThe ghost decides to bide its time until it attacks next!")
+        
+        
 player = Player()
 
 def main():
@@ -327,7 +403,7 @@ def main():
     
     # Introduction
     print("""
-        It was a crisp autumn evening, and the gang—Fred, Daphne, Velma, Shaggy, and, of course, Scooby-Doo—found themselves parked outside the gates of Graveyard Grove.
+        It was a crisp autumn evening and Fred, Daphne, Velma, Shaggy, and of course Scooby-Doo—found themselves parked outside the gates of Graveyard Grove.
         
         The old cemetery was rumored to be haunted by the ghost of Old Man Jenkins, a local legend who was said to roam the grounds every Halloween.
           
@@ -367,13 +443,15 @@ def main():
     mystery_gang = 5    
     turn_count = 0
     
-    while turn_count < 50 and mystery_gang > 0:
+    
+    while turn_count < 20 and mystery_gang > 0:
         turn_count += 1
         
         if turn_count % 3 == 0:
             
             ghost = Ghost()
             ghost.ghost_attack(mystery_gang)
+            
         
         try:
             user_input = input("\nWhat would you like to do? Move location: (m), Search current location: (s), Look at your list of clues: (l): ").lower()
@@ -383,7 +461,7 @@ def main():
                 player.search_location(user_location)            
             elif user_input == "l":
                 player.look_at_clues()
-                
+            
         except ValueError:
             print("\nThat's not valid input.")
 
