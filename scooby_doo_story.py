@@ -87,7 +87,7 @@ class Player:
                 
         return user_location
 
-    def search_location(self, user_location):
+    def search_location(self, user_location, turn_count: int) -> int:
         location_name = self.locations[user_location]  # Get the name of the location
         # Initialize an empty dictionary for interactive objects
         # Define interactive objects based on location name
@@ -98,19 +98,26 @@ class Player:
 Do you want to examine an object further, or do something else (m)? """)
                     
                     if user_choice == "h":
+                        turn_count += 1
                         print("\nA headstone is normal in a graveyard, ya silly.")
                     
                     elif user_choice == "f":
+                        turn_count += 1
                         print("\nIt is normal to see an urn around a graveyard full of dead people. Try using your brain.")
                     
                     elif user_choice == "d":
+                        turn_count += 1
                         print("\nThese dead people don't have anyone that loves them enough to bring them fresh flowers.")
                     
                     elif user_choice == "l":
+                        turn_count += 1
                         print("\nYou found a clue: A single lantern rests by this grave.")
-                        self.player_clues.append("lantern")
-                        self.clue_count += 1
-                        if self.clue_count >= 5:
+                        
+                        if "lantern" not in self.player_clues:
+                            self.player_clues.append("lantern")
+                            self.clue_count += 1
+                            
+                        elif self.clue_count >= 5:
                             player.solve_mystery()
                         
                     elif user_choice == "m":
@@ -126,16 +133,21 @@ Do you want to examine an object further, or do something else (m)? """)
 Do you want to examine an object further, or do something else (m)? """)
                     
                     if user_choice == "c":
+                        turn_count += 1
                         print("\nYou found a clue: The crypt looks like it has been damaged by somethig sharp. ")
-                        self.player_clues.append("damaged crypt")
-                        self.clue_count += 1
-                        if self.clue_count >= 5:
+                        if "damaged crypt" not in self.player_clues:
+                            self.player_clues.append("damaged crypt")
+                            self.clue_count += 1
+                        
+                        elif self.clue_count >= 5:
                             player.solve_mystery()
                     
                     elif user_choice == "s":
+                        turn_count += 1
                         print("\nIt looks like there is a statue of someone that was buried here. ")
                     
                     elif user_choice == "t":
+                        turn_count += 1
                         print("\nLike this place is too old to have a lightswitch so I guess the torch makes sense. But who lit it?? ")
                     
                     elif user_choice == "m":
@@ -151,16 +163,21 @@ Do you want to examine an object further, or do something else (m)? """)
 Do you want to examine an object further, or do something else (m)? """)
                     
                     if user_choice == "s":
+                        turn_count += 1
                         print("\nYou found a clue: Gang, like why is there a shovel in a church? The edge looks like it has been chipped. ")
-                        self.player_clues.append("shovel")
-                        self.clue_count += 1
-                        if self.clue_count >= 5:
+                        if "shovel" not in self.player_clues:
+                            self.player_clues.append("shovel")
+                            self.clue_count += 1
+                        
+                        elif self.clue_count >= 5:
                             player.solve_mystery()
                     
                     elif user_choice == "a":
+                        turn_count += 1
                         print("\nYou look behind the altar but see nothing. Jeepers! This place gives me the creeps. ")
                     
                     elif user_choice == "g":
+                        turn_count += 1
                         print("\nJinkies! The stained glass window looks like Scooby. ")
                     
                     elif user_choice == "m":
@@ -176,16 +193,21 @@ Do you want to examine an object further, or do something else (m)? """)
 Do you want to examine an object further, or do something else (m)? """)
                     
                     if user_choice == "f":
+                        turn_count += 1
                         print("\nThat sure is a pretty fountain. Maybe we should get one in the mystery machine? ")
                     
                     elif user_choice == "h":
+                        turn_count += 1
                         print("\nYou found a clue: Like zoinkes Scoob! There are large holes all over this garden that seem to be too large for plants. ")
-                        self.player_clues.append("large holes")
-                        self.clue_count += 1
-                        if self.clue_count >= 5:
+                        if "large holes" not in self.player_clues:
+                            self.player_clues.append("large holes")
+                            self.clue_count += 1
+                        
+                        elif self.clue_count >= 5:
                             player.solve_mystery()
                     
                     elif user_choice == "b":
+                        turn_count += 1
                         print("\nThere's nothing there, what did you expect? Zombies in the flower bed? ")
                     
                     elif user_choice == "m":
@@ -201,16 +223,21 @@ Do you want to examine an object further, or do something else (m)? """)
 Do you want to examine an object further, or do something else (m)? """)
                     
                     if user_choice == "g":
+                        turn_count += 1
                         print("\nYou found a clue: Hold the phone. This gate has a lock on it that appears to have been cut.")
-                        self.player_clues.append("gate")
-                        self.clue_count += 1
-                        if self.clue_count >= 5:
+                        if "gate" not in self.player_clues:
+                            self.player_clues.append("gate")
+                            self.clue_count += 1
+                        
+                        elif self.clue_count >= 5:
                             player.solve_mystery()
                     
                     elif user_choice == "s":
+                        turn_count += 1
                         print("\nIt says 'Welcome to Graveyard Grove'.")
                     
                     elif user_choice == "gs":
+                        turn_count += 1
                         print("\nRuh-roh! A gargoyle statue. ")
                     
                     elif user_choice == "m":
@@ -264,15 +291,15 @@ Do you want to examine an object further, or do something else (m)? """)
             elif user_choice == "gk":
                 time.sleep(2)
                 print("""
-                      You don't trust a word that the groundskeeper says, so you thank him for his input and pretend to help him capture Randy.
-                      While the groundskeeper is getting the net ready, you pull out the net in your bag and throw it on him
-                      (you're part of the gang and would never come unprepared). The groundskeeper is suprised that you knew it was him.
-                      You call the sheriff who takes the man into custody, but not before you bribe the man with a scooby snack.
-                      He reveals that the gang is in the loft of the church. The man states that several years ago, 
-                      he created the legend of Old Man Jenkins when he buried a years supply of scooby snacks in 
-                      the graveyard during the pandemic. 
-                      He buried the treasure when there was a large storm so the neighbors wouldn't know what he was doing.
-                      You knew that there was no such thing as ghosts. """)
+                You don't trust a word that the groundskeeper says, so you thank him for his input and pretend to help him capture Randy.
+                While the groundskeeper is getting the net ready, you pull out the net in your bag and throw it on him
+                (you're part of the gang and would never come unprepared). The groundskeeper is suprised that you knew it was him.
+                You call the sheriff who takes the man into custody, but not before you bribe the man with a scooby snack.
+                He reveals that the gang is in the loft of the church. The man states that several years ago, 
+                he created the legend of Old Man Jenkins when he buried a years supply of scooby snacks in 
+                the graveyard during the pandemic. 
+                He buried the treasure when there was a large storm so the neighbors wouldn't know what he was doing.
+                You knew that there was no such thing as ghosts. """)
                 sys.exit()
                 
         except ValueError:
@@ -293,109 +320,70 @@ class Daphne(NPC):
 class Velma(NPC):
     def __init__(self):
         super().__init__(name="Velma", mood="analytical")
+    
     def take_action(self):
         print("\nI'll investigate the mausoleum for any clues.")
 
 class Shaggy(NPC):
     def __init__(self):
         super().__init__(name="Shaggy", mood="hungry")
+    
     def take_action(self):
         print("\nLike, I'll check out the entrance area. Maybe there's some food around. ")
 
 class Scooby(NPC):
     def __init__(self):
         super().__init__(name="Scooby", mood="nervous")
+    
     def take_action(self):
         print("\nRuh-roh! I'll join Shaggy in the entrance. ")
 
 class Ghost(NPC):
+    
     def __init__(self):
         super().__init__(name="Ghost", mood="upset")
+        
+        self.available_targets = ["Fred", "Daphne", "Velma", "Shaggy", "Scooby"]
+        
+        self.captured_dialogue = {
+            "Fred": "\nFred yells for help as the ghost drags him away!",
+            "Daphne": "\nDaphne tries to run but trips over a trap Fred set! She is captured by the ghost!",
+            "Velma": "\nThe ghost fogs up Velma's glasses enough to snatch her away while she can't see!",
+            "Shaggy": "\nThe ghost manages to sneak up on Shaggy while he's busy shoveling a sandwich into his mouth.",
+            "Scooby": "\nThe ghost pulls out a Scooby-Snack from his back pocket and captures Scooby while he's distracted!"
+        }
+        
+        self.dialogue = {
+            "Fred": "\nFred is able to lead the ghost into a trap and get away!",
+            "Daphne": "\nDaphne runs fast enough the ghost gives up almost immediately.",
+            "Velma": "\nVelma isn't afraid of the ghost and it walks away in shame.",
+            "Shaggy": "\nShaggy manages to beat the ghost over the head with his sandwich until it backs off!",
+            "Scooby": "\nScooby uses a Scooby-Snack to distract the ghost long enough until he escapes!"
+        }
+    
     def take_action(self):
         print("\nWooooo! You meddling kids will never solve the mystery! ")
         
+    def ghost_attack(self):
         
-    def ghost_attack(self, mystery_gang):
-        
-        self.mystery_gang = mystery_gang
-        
-        self.attack = random.randint(1, 5)
-        
-        captured_fred = False
-        captured_daphne = False
-        captured_velma = False
-        captured_velma = False
-        captured_shaggy = False
-        captured_scooby = False
-        
-        if mystery_gang <= 0:
-            print("The ghost has captured the entire mystery gang! You were unable to solve the mystery in time.")
-            sys.exit()
-        
-        # Only attack if no one is already captured
-        if not captured_fred and self.attack == 1:
+        if self.available_targets:
+            target = random.choice(self.available_targets)
             time.sleep(2)
-            print("\nThe ghost of Old Man Jenkins suddenly attacks Fred!")
-            attack_fred = random.randint(1, 3)
-            if attack_fred == 1:
-                print("\nFred yells for help as the ghost drags him away!")
-                mystery_gang -= 1
-                captured_fred = True
+            print(f"\nThe ghost of Old Man Jenkins suddenly attacks {target}!")
+            if random.randint == 1:
+                time.sleep(1)
+                print(self.captured_dialogue[target])
+                self.available_targets.remove(target)
+                if not self.available_targets:
+                    time.sleep(3)
+                    print("\nThe ghost has captured the entire mystery gang! You were unable to solve the mystery in time.")
+                    sys.exit()
             else:
-                print("\nFred leads the ghost into a trap so he can get away!")
-        
-        elif not captured_daphne and self.attack == 2:
-            time.sleep(2)
-            print("\nThe ghost of Old Man Jenkins suddenly attacks Daphne!")
-            attack_daphne = random.randint(1, 3)
-            if attack_daphne == 1:
-                print("\nDaphne tries to run but trips over a trap Fred set! She is captured by the ghost!")
-                mystery_gang -= 1
-                captured_daphne = True
-            else:
-                print("\nDaphne is able to run fast enough to escape the ghost!")
-        
-        elif not captured_velma and self.attack == 3:
-            time.sleep(2)
-            print("\nThe ghost of Old Man Jenkins suddenly attacks Velma!")
-            attack_velma = random.randint(1, 3)
-            if attack_velma == 1:
-                print("\nThe ghost manages to fog up Velma's glasses and snatch her away while she can't see!")
-                mystery_gang -= 1
-                captured_velma = True
-            else:
-                print("\nVelma isn't afraid of the ghost and the ghost walks away in shame.")
-            
-        
-        elif not captured_shaggy and self.attack == 4:
-            time.sleep(2)
-            print("\nThe ghost of Old Man Jenkins suddenly attacks Shaggy!")
-            attack_shaggy = random.randint(1, 3)
-            if attack_shaggy == 1:
-                print("\nThe ghost manages to sneak up and capture Shaggy while he's busy shoveling a sandwich into his mouth.")
-                mystery_gang -= 1
-                captured_shaggy = True
-            else:
-                print("\nShaggy beats the ghost over the head with his sandwich until it backs off!")
-            
-        
-        elif not captured_scooby and self.attack == 5:
-            time.sleep(2)
-            print("\nThe ghost of Old Man Jenkins suddenly attacks Scooby!")
-            attack_scooby = random.randint(1, 3)
-            if attack_scooby == 1:
-                print("\nThe ghost pulls out a Scooby-Snack from its back pocket and distracts Scooby long enough to capture him!")
-                mystery_gang -= 1
-                captured_scooby = True
-            else:
-                print("\nScooby bites the ghost and it runs away!")
-           
-        else:
-            time.sleep(2)
-            print("\nThe ghost decides to bide its time until it attacks next!")
-        
+                time.sleep(1)
+                print(self.dialogue[target])
         
 player = Player()
+ghost = Ghost()
 
 def main():
     
@@ -440,29 +428,35 @@ def main():
         character.take_action()
         print(f"{str(character)}")
     
-    mystery_gang = 5    
+      
     turn_count = 0
     
-    
-    while turn_count < 20 and mystery_gang > 0:
-        turn_count += 1
+    while turn_count <= 20:
         
-        if turn_count % 3 == 0:
-            
-            ghost = Ghost()
-            ghost.ghost_attack(mystery_gang)
-            
+        if turn_count >= 20:
+            print("""
+                  As the morning draws nearer you realize you missed your best opportunity
+                  to solve the puzzle of Graveyard Grove! You are completely stumped by the ghost,
+                  and together with the Mystery Gang you head home with an unresolved case.""")
+            sys.exit()
         
-        try:
-            user_input = input("\nWhat would you like to do? Move location: (m), Search current location: (s), Look at your list of clues: (l): ").lower()
-            if user_input == "m" or user_input == "move":
+        
+        elif turn_count % 3 == 0:
+            
+            ghost.ghost_attack()
+            
+        user_input = input("\nWhat would you like to do? Move location: (m), Search current location: (s), Look at your list of clues: (l): ").lower()
+        
+        if user_input == "m" or user_input == "move":
+                turn_count += 1
                 user_location = player.move_location(user_location)
-            elif user_input == "s" or user_input == "search":
+        elif user_input == "s" or user_input == "search":
+                turn_count += 1
                 player.search_location(user_location)            
-            elif user_input == "l":
+        elif user_input == "l":
                 player.look_at_clues()
-            
-        except ValueError:
+        
+        else:
             print("\nThat's not valid input.")
 
 
