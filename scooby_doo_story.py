@@ -87,93 +87,96 @@ class Player:
                 
         return user_location
 
-    def search_location(self, user_location, turn_count: int) -> int:
+    def search_location(self, user_location):
         location_name = self.locations[user_location]  # Get the name of the location
         # Initialize an empty dictionary for interactive objects
         # Define interactive objects based on location name
         if location_name == "gravesite":
+            
             while True:
-                try:
+                
                     user_choice = input("""\nYou look around the gravesite and you see a suspicious headstone (h), funeral urn (f), dead flowers (d), and a lantern (l). 
 Do you want to examine an object further, or do something else (m)? """)
                     
                     if user_choice == "h":
-                        turn_count += 1
+                        
                         print("\nA headstone is normal in a graveyard, ya silly.")
                     
                     elif user_choice == "f":
-                        turn_count += 1
+                        
                         print("\nIt is normal to see an urn around a graveyard full of dead people. Try using your brain.")
                     
                     elif user_choice == "d":
-                        turn_count += 1
+                        
                         print("\nThese dead people don't have anyone that loves them enough to bring them fresh flowers.")
                     
                     elif user_choice == "l":
-                        turn_count += 1
+                        
                         print("\nYou found a clue: A single lantern rests by this grave.")
                         
                         if "lantern" not in self.player_clues:
                             self.player_clues.append("lantern")
                             self.clue_count += 1
                             
-                        elif self.clue_count >= 5:
+                        if self.clue_count >= 5:
                             player.solve_mystery()
                         
                     elif user_choice == "m":
                         break
                     
-                except ValueError:
-                    print("\nThat's not valid input.")
+                    else:
+                        print("\nThat's not valid input.")
 
         elif location_name == "mausoleum":
+            
             while True:
-                try:
+                
                     user_choice = input("""\nYou look around the mausoleum and you see a crypt (c), a statue (s), and a torch (t). 
 Do you want to examine an object further, or do something else (m)? """)
                     
                     if user_choice == "c":
-                        turn_count += 1
+                        
                         print("\nYou found a clue: The crypt looks like it has been damaged by somethig sharp. ")
                         if "damaged crypt" not in self.player_clues:
                             self.player_clues.append("damaged crypt")
                             self.clue_count += 1
                         
-                        elif self.clue_count >= 5:
+                        if self.clue_count >= 5:
                             player.solve_mystery()
                     
                     elif user_choice == "s":
-                        turn_count += 1
+                        
                         print("\nIt looks like there is a statue of someone that was buried here. ")
                     
                     elif user_choice == "t":
-                        turn_count += 1
+                        
                         print("\nLike this place is too old to have a lightswitch so I guess the torch makes sense. But who lit it?? ")
                     
                     elif user_choice == "m":
                         break
                 
-                except ValueError:
-                    print("\nThat's not valid input.")
+                    else:
+                        print("\nThat's not valid input.")
         
         elif location_name == "chapel":
+            
             while True:
-                try:
+                
                     user_choice = input("""\nYou look around the chapel and see a shovel (s), an altar (a), and a stained glass window (g). 
 Do you want to examine an object further, or do something else (m)? """)
                     
                     if user_choice == "s":
-                        turn_count += 1
+                        
                         print("\nYou found a clue: Gang, like why is there a shovel in a church? The edge looks like it has been chipped. ")
                         if "shovel" not in self.player_clues:
                             self.player_clues.append("shovel")
                             self.clue_count += 1
                         
-                        elif self.clue_count >= 5:
+                        if self.clue_count >= 5:
                             player.solve_mystery()
                     
                     elif user_choice == "a":
-                        turn_count += 1
+                        
                         print("\nYou look behind the altar but see nothing. Jeepers! This place gives me the creeps. ")
                     
                     elif user_choice == "g":
@@ -183,71 +186,72 @@ Do you want to examine an object further, or do something else (m)? """)
                     elif user_choice == "m":
                         break
                 
-                except ValueError:
-                    print("\nThat's not valid input.")
+                    else:
+                        print("\nThat's not valid input.")
                     
         elif location_name == "gardens":
+            
             while True:
-                try:
+                
                     user_choice = input("""\nYou look around the gardens and see a fountain (f), large holes (h), and a flower bed (b). 
 Do you want to examine an object further, or do something else (m)? """)
                     
                     if user_choice == "f":
-                        turn_count += 1
+                        
                         print("\nThat sure is a pretty fountain. Maybe we should get one in the mystery machine? ")
                     
-                    elif user_choice == "h":
-                        turn_count += 1
+                    if user_choice == "h":
+                        
                         print("\nYou found a clue: Like zoinkes Scoob! There are large holes all over this garden that seem to be too large for plants. ")
                         if "large holes" not in self.player_clues:
                             self.player_clues.append("large holes")
                             self.clue_count += 1
                         
-                        elif self.clue_count >= 5:
+                        if self.clue_count >= 5:
                             player.solve_mystery()
                     
                     elif user_choice == "b":
-                        turn_count += 1
+                        
                         print("\nThere's nothing there, what did you expect? Zombies in the flower bed? ")
                     
                     elif user_choice == "m":
                         break
                 
-                except ValueError:
-                    print("\nThat's not valid input.")
+                    else:
+                        print("\nTha'ts not valid input.")
         
         elif location_name == "entrance":
+            
             while True:
-                try:
+                
                     user_choice = input("""\nYou are at the entrance and see a gate (g), a signboard (s), and a couple gargoyle statue (gs). 
 Do you want to examine an object further, or do something else (m)? """)
                     
                     if user_choice == "g":
-                        turn_count += 1
+                        
                         print("\nYou found a clue: Hold the phone. This gate has a lock on it that appears to have been cut.")
                         if "gate" not in self.player_clues:
                             self.player_clues.append("gate")
                             self.clue_count += 1
                         
-                        elif self.clue_count >= 5:
+                        if self.clue_count >= 5:
                             player.solve_mystery()
                     
                     elif user_choice == "s":
-                        turn_count += 1
+                        
                         print("\nIt says 'Welcome to Graveyard Grove'.")
                     
                     elif user_choice == "gs":
-                        turn_count += 1
+                        
                         print("\nRuh-roh! A gargoyle statue. ")
                     
                     elif user_choice == "m":
                         break
                 
-                except ValueError:
-                    print("\nThat's not valid input.")
+                    else:
+                        print("\nThat's not valid input.")
                     
         
-
     def look_at_clues(self):
         if not self.player_clues:
             print("\nYou don't have any clues yet. ")
@@ -264,12 +268,13 @@ Do you want to examine an object further, or do something else (m)? """)
             so someone could look for the buried treasure without being disturbed.
             He suspects that the so called ghost is Randy Roughington who has a gambling problem. """)
         
-        try:
+        
             
+        while True:
             user_choice = input("\nWho do you think the is the ghost? Randy Roughington (rr), a real ghost (rg), or the groundskeeper (gk)? ")
                 
             if user_choice == "rr":
-                time.sleep(2)
+                time.sleep(3)
                 print("""
                       The groundskeeper tells that Randy visits the gravyard every night around 8pm.
                       It is 7pm so now is the perfect time to capture him.
@@ -282,14 +287,14 @@ Do you want to examine an object further, or do something else (m)? """)
                 sys.exit()
             
             elif user_choice == "rg":
-                time.sleep(2)
+                time.sleep(3)
                 print("""
                       You decide to leave the gang and go home because you are too scared of ghosts.
                       You are the best friend ever known to man. Whether or not you made the right choice, you will never know.""")
                 sys.exit()
                 
             elif user_choice == "gk":
-                time.sleep(2)
+                time.sleep(3)
                 print("""
                 You don't trust a word that the groundskeeper says, so you thank him for his input and pretend to help him capture Randy.
                 While the groundskeeper is getting the net ready, you pull out the net in your bag and throw it on him
@@ -302,8 +307,8 @@ Do you want to examine an object further, or do something else (m)? """)
                 You knew that there was no such thing as ghosts. """)
                 sys.exit()
                 
-        except ValueError:
-            print("\nThat's not valid input.")
+            else:
+                print("\nThe groundskeeper gives you a look. 'You wanna try that again?'")
                     
 class Fred(NPC):
     def __init__(self):
@@ -431,27 +436,18 @@ def main():
       
     turn_count = 0
     
-    while turn_count <= 20:
+    while True:
+        turn_count += 1
         
-        if turn_count >= 20:
-            print("""
-                  As the morning draws nearer you realize you missed your best opportunity
-                  to solve the puzzle of Graveyard Grove! You are completely stumped by the ghost,
-                  and together with the Mystery Gang you head home with an unresolved case.""")
-            sys.exit()
-        
-        
-        elif turn_count % 3 == 0:
+        if turn_count % 3 == 0:
             
             ghost.ghost_attack()
             
         user_input = input("\nWhat would you like to do? Move location: (m), Search current location: (s), Look at your list of clues: (l): ").lower()
         
         if user_input == "m" or user_input == "move":
-                turn_count += 1
                 user_location = player.move_location(user_location)
         elif user_input == "s" or user_input == "search":
-                turn_count += 1
                 player.search_location(user_location)            
         elif user_input == "l":
                 player.look_at_clues()
