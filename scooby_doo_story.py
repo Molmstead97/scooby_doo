@@ -15,7 +15,6 @@ class NPC(ABC):
     def __str__(self):
         return f"\nMood: {self.mood}\n"
     
-
 class Player:
     locations = {
         "g": "gravesite",
@@ -99,19 +98,15 @@ class Player:
 Do you want to examine an object further, or do something else (m)? """)
                     
                     if user_choice == "h":
-                        
                         print("\nA headstone is normal in a graveyard, ya silly.")
                     
                     elif user_choice == "f":
-                        
                         print("\nIt is normal to see an urn around a graveyard full of dead people. Try using your brain.")
                     
                     elif user_choice == "d":
-                        
                         print("\nThese dead people don't have anyone that loves them enough to bring them fresh flowers.")
                     
                     elif user_choice == "l":
-                        
                         print("\nYou found a clue: A single lantern rests by this grave.")
                         
                         if "lantern" not in self.player_clues:
@@ -135,7 +130,6 @@ Do you want to examine an object further, or do something else (m)? """)
 Do you want to examine an object further, or do something else (m)? """)
                     
                     if user_choice == "c":
-                        
                         print("\nYou found a clue: The crypt looks like it has been damaged by somethig sharp. ")
                         if "damaged crypt" not in self.player_clues:
                             self.player_clues.append("damaged crypt")
@@ -145,11 +139,9 @@ Do you want to examine an object further, or do something else (m)? """)
                             player.solve_mystery()
                     
                     elif user_choice == "s":
-                        
                         print("\nIt looks like there is a statue of someone that was buried here. ")
                     
                     elif user_choice == "t":
-                        
                         print("\nLike this place is too old to have a lightswitch so I guess the torch makes sense. But who lit it?? ")
                     
                     elif user_choice == "m":
@@ -276,10 +268,10 @@ Do you want to examine an object further, or do something else (m)? """)
             if user_choice == "rr":
                 time.sleep(3)
                 print("""
-                      The groundskeeper tells that Randy visits the gravyard every night around 8pm.
-                      It is 7pm so now is the perfect time to capture him.
-                      You agree that you should be the bait.
-                      The groundskeeper stands by with a net. 
+                      The groundskeeper says that Randy visits the gravyard every night around 8pm.
+                      It's now 7pm so it's the perfect time to capture him.
+                      You agree to be the bait, luring Randy into the chapel so you can capture him.
+                      The groundskeeper stands at the ready with a net, hiding behind one of the pews.
                       You hear rustling and as you turn your head to investigate, a net is thrown of your head.
                       Through the holes in the net, you can see that the groundskeeper was the one that caught you.
                       He takes you to an underground cave where the rest of the gang is.
@@ -375,7 +367,8 @@ class Ghost(NPC):
             target = random.choice(self.available_targets)
             time.sleep(2)
             print(f"\nThe ghost of Old Man Jenkins suddenly attacks {target}!")
-            if random.randint == 1:
+            attack = random.randint(1, 2)
+            if attack == 1:
                 time.sleep(1)
                 print(self.captured_dialogue[target])
                 self.available_targets.remove(target)
@@ -428,7 +421,7 @@ def main():
     }
     
     for character_name, character in characters.items():
-        #time.sleep(5)
+        #time.sleep(4)
         print(f"\n{character_name}:") 
         character.take_action()
         print(f"{str(character)}")
